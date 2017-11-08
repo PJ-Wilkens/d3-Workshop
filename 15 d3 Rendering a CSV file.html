@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Example</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+
+    <script>
+
+      var svg = d3.select("body").append("svg")
+        .attr("width",  250)
+        .attr("height", 250);
+
+      function render(data){
+
+        // Bind data/Update
+        var circles = svg.selectAll("circle").data(data);
+        
+        // Exit
+        circles.exit().remove();
+
+        // Enter
+        circles.enter().append("circle")
+          .attr("r", 10)
+          .merge(circles) //Enter + Update
+          .attr("cx", d => d.x)
+          .attr("cy", d => d.y);
+
+        
+      }
+
+      function type(d){
+        d.x = +d.x;
+        d.y = +d.y;
+        return d;
+      }
+      //Can this last part be streamlined?
+      d3.csv("data.csv", type, render);
+
+    </script>
+
+  </body>
+</html>

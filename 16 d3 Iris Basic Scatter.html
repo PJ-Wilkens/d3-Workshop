@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Example</title>
+    <script src="d3.js"></script>
+  </head>
+  <body>
+
+    <script>
+
+      var svg = d3.select("body").append("svg")
+        .attr("width",  250)
+        .attr("height", 250);
+
+      var xScale = d3.scaleLinear().range([0, 250]);
+      var yScale = d3.scaleLinear().range([0, 250]);
+
+      function render(data){
+
+        xScale.domain(d3.extent(data, d => d.sepal_length));
+        yScale.domain(d3.extent(data, d => d.petal_length));
+
+        var circles = svg.selectAll("circle").data(data);
+
+        circles.exit().remove();
+
+        circles.enter().append("circle")
+          .attr("r", 1)
+          .merge(circles)
+          .attr("cx", d=> xScale(d.sepal_length))
+          .attr("cy", d=> yScale(d.petal_length));
+      }
+
+      function type(d){
+        d.sepal_length = +d.sepal_length;
+        d.sepal_width  = +d.sepal_width;
+        d.petal_length = +d.petal_length;
+        d.petal_width  = +d.petal_width;
+        return d;
+      }
+      //This is pretty ugly. Both the code and the plot. Reccomendations? 
+      d3.csv("iris.csv", type, render);
+
+    </script>
+
+  </body>
+</html>

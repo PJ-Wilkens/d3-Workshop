@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Example</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+
+    <script>
+
+      var scale = d3.scaleLinear()
+        .domain([1, 5])   // Data space
+        .range([0, 200]); // Pixel space
+
+      var svg = d3.select("body").append("svg")
+        .attr("width",  250)
+        .attr("height", 250);
+      //Typical phases of d3
+      function render(data, color){
+
+        // Bind data
+        var rects = svg.selectAll("rect").data(data);
+
+        rects.exit().remove(); //Exit
+        
+        // Enter. Fix attributes of DOM elements that are "static" or data-independent
+        rects = rects.enter().append("rect") //Enter
+           //Enter + Update
+          .attr("y", 50)
+          .attr("width",  20)
+          .attr("height", 20)
+          .merge(rects) // Enter + Update. Specifies "dynamic" data-dependent attributes of DOM elements
+          .attr("x", scale)
+          .attr("fill", color);
+      }
+      //Does the output look like you would expect it too?
+      render([1, 2, 2.5],     "red");
+      render([1, 2, 3, 4, 5], "blue");
+      render([1, 2],          "green");
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Example</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+
+    <script>
+
+      var scale = d3.scaleOrdinal()
+        .domain(["A", "B", "C"])
+        .range(["Apple", "Banana", "Coconut"]);
+
+      console.log(scale("A")); // Prints Apple
+      console.log(scale("B")); // Prints Banana
+      console.log(scale("C")); // Prints Coconut
+
+    </script>
+
+  </body>
+</html>
